@@ -59,5 +59,24 @@ Namespace My.Resources
                 resourceCulture = value
             End Set
         End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to &quot;$$ITMAsparagus&quot;,&quot;##LOC0&quot;,&quot;%%CATFresh Vegetables&quot;
+        '''&quot;$$ITMBroccoli&quot;,&quot;##LOC0&quot;,&quot;%%CATFresh Vegetables&quot;
+        '''&quot;$$ITMCarrots&quot;,&quot;##LOC0&quot;,&quot;%%CATFresh Vegetables&quot;
+        '''&quot;$$ITMCauliflower&quot;,&quot;##LOC0&quot;,&quot;%%CATFresh Vegetables&quot;
+        '''&quot;$$ITMCelery&quot;,&quot;##LOC0&quot;,&quot;%%CATFresh Vegetables&quot;
+        '''&quot;$$ITMCorn&quot;,&quot;##LOC0&quot;,&quot;%%CATFresh Vegetables&quot;
+        '''&quot;$$ITMCucumbers&quot;,&quot;##LOC0&quot;,&quot;%%CATFresh Vegetables&quot;
+        '''&quot;$$ITMLettuce / Greens&quot;,&quot;##LOC0&quot;,&quot;%%CATFresh Vegetables&quot;
+        '''&quot;$$ITMMushrooms&quot;,&quot;##LOC0&quot;,&quot;%%CATFresh Vegetables&quot;
+        '''&quot;$$ITMOnions&quot;,&quot;##LOC0&quot;,&quot;%%CATFresh Vegetables&quot;
+        '''&quot;$$ITMP [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property Grocery() As String
+            Get
+                Return ResourceManager.GetString("Grocery", resourceCulture)
+            End Get
+        End Property
     End Module
 End Namespace

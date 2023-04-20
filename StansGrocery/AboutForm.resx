@@ -57,4 +57,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Label1.Text" xml:space="preserve">
+    <value>This program is used in Stan's grocery store as a way to
+easily search for specific products and can be sorted
+using the name of the product, category, or aisle
+number using the provided search box and filter
+option. If you have any further questions or concerns,
+please contact upper managment, but if you have been
+reading all this, then I would recommend you stop
+right here and don't use this program as it hurt me, the 
+developer, to make, smile.</value>
+  </data>
 </root>

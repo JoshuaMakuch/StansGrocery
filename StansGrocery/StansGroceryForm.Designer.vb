@@ -45,7 +45,7 @@ Partial Class StansGroceryForm
         Me.DisplayListBox = New System.Windows.Forms.ListBox()
         Me.DisplayListBoxLabel = New System.Windows.Forms.Label()
         Me.ItemInformationLabel = New System.Windows.Forms.Label()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.DisplayTextBox = New System.Windows.Forms.TextBox()
         Me.MainMenuStrip.SuspendLayout()
         Me.SearchGroupBox.SuspendLayout()
         Me.FilterGroupBox.SuspendLayout()
@@ -58,7 +58,7 @@ Partial Class StansGroceryForm
         Me.MainMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.HelpToolStripMenuItem})
         Me.MainMenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.MainMenuStrip.Name = "MainMenuStrip"
-        Me.MainMenuStrip.Size = New System.Drawing.Size(867, 28)
+        Me.MainMenuStrip.Size = New System.Drawing.Size(870, 28)
         Me.MainMenuStrip.TabIndex = 0
         Me.MainMenuStrip.Text = "MainMenuStrip"
         '
@@ -174,13 +174,13 @@ Partial Class StansGroceryForm
         Me.CategoryRadioButton.Name = "CategoryRadioButton"
         Me.CategoryRadioButton.Size = New System.Drawing.Size(147, 24)
         Me.CategoryRadioButton.TabIndex = 5
-        Me.CategoryRadioButton.TabStop = True
         Me.CategoryRadioButton.Text = "Filter By Category"
         Me.CategoryRadioButton.UseVisualStyleBackColor = True
         '
         'AisleRadioButton
         '
         Me.AisleRadioButton.AutoSize = True
+        Me.AisleRadioButton.Checked = True
         Me.AisleRadioButton.Location = New System.Drawing.Point(6, 29)
         Me.AisleRadioButton.Name = "AisleRadioButton"
         Me.AisleRadioButton.Size = New System.Drawing.Size(119, 24)
@@ -235,20 +235,20 @@ Partial Class StansGroceryForm
         Me.ItemInformationLabel.TabIndex = 7
         Me.ItemInformationLabel.Text = "Item Information"
         '
-        'TextBox1
+        'DisplayTextBox
         '
-        Me.TextBox1.Location = New System.Drawing.Point(12, 410)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(841, 27)
-        Me.TextBox1.TabIndex = 6
+        Me.DisplayTextBox.Location = New System.Drawing.Point(12, 410)
+        Me.DisplayTextBox.Name = "DisplayTextBox"
+        Me.DisplayTextBox.Size = New System.Drawing.Size(841, 27)
+        Me.DisplayTextBox.TabIndex = 6
         '
         'StansGroceryForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(867, 447)
+        Me.ClientSize = New System.Drawing.Size(870, 469)
         Me.Controls.Add(Me.ItemInformationLabel)
-        Me.Controls.Add(Me.TextBox1)
+        Me.Controls.Add(Me.DisplayTextBox)
         Me.Controls.Add(Me.DisplayListBoxLabel)
         Me.Controls.Add(Me.DisplayListBox)
         Me.Controls.Add(Me.FilterGroupBox)
@@ -290,5 +290,5 @@ Partial Class StansGroceryForm
     Friend WithEvents DisplayListBox As ListBox
     Friend WithEvents DisplayListBoxLabel As Label
     Friend WithEvents ItemInformationLabel As Label
-    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents DisplayTextBox As TextBox
 End Class

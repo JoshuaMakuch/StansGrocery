@@ -22,8 +22,9 @@ Partial Class AboutForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AboutForm))
         Me.ExitButton = New System.Windows.Forms.Button()
-        Me.AboutLabel = New System.Windows.Forms.Label()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'ExitButton
@@ -35,21 +36,22 @@ Partial Class AboutForm
         Me.ExitButton.Text = "Exit"
         Me.ExitButton.UseVisualStyleBackColor = True
         '
-        'AboutLabel
+        'Label1
         '
-        Me.AboutLabel.AutoSize = True
-        Me.AboutLabel.Location = New System.Drawing.Point(12, 9)
-        Me.AboutLabel.Name = "AboutLabel"
-        Me.AboutLabel.Size = New System.Drawing.Size(127, 20)
-        Me.AboutLabel.TabIndex = 1
-        Me.AboutLabel.Text = "This program is a "
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("SimSun", 13.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+        Me.Label1.Location = New System.Drawing.Point(28, 40)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(694, 207)
+        Me.Label1.TabIndex = 2
+        Me.Label1.Text = resources.GetString("Label1.Text")
         '
         'AboutForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
-        Me.Controls.Add(Me.AboutLabel)
+        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.ExitButton)
         Me.Name = "AboutForm"
         Me.Text = "AboutForm"
@@ -59,5 +61,5 @@ Partial Class AboutForm
     End Sub
 
     Friend WithEvents ExitButton As Button
-    Friend WithEvents AboutLabel As Label
+    Friend WithEvents Label1 As Label
 End Class
