@@ -13,7 +13,7 @@ Public Class StansGroceryForm
     Private Sub StansGroceryForm_Closed(sender As Object, e As EventArgs) Handles Me.Closed
         SplashScreenForm.Close()
     End Sub
-
+    'About Tool Strip Menu Button
     Private Sub AboutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutToolStripMenuItem.Click
         Me.Hide()
         AboutForm.Show()
