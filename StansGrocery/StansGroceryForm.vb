@@ -1,10 +1,11 @@
-﻿Option Strict On
-Option Explicit On
-'Joshua Makuch
+﻿'Joshua Makuch
 'RCET 0265
 'Spring 2023
 'Stan's Grocery
 'https://github.com/JoshuaMakuch/StansGrocery
+
+Option Strict On
+Option Explicit On
 
 Public Class StansGroceryForm
 
@@ -91,12 +92,14 @@ Public Class StansGroceryForm
                     If MessageBox.Show("File Not Found, do you want to try again?", "Try Again?", MessageBoxButtons.YesNo) = DialogResult.No Then
                         SplashScreenForm.Close()
                         Me.Close()
+                        Exit Sub
                     End If
                 End Try
             Else
                 If MessageBox.Show("File Not Found, do you want to try again?", "Try Again?", MessageBoxButtons.YesNo) = DialogResult.No Then
                     SplashScreenForm.Close()
                     Me.Close()
+                    Exit Sub
                 End If
             End If
         Loop
