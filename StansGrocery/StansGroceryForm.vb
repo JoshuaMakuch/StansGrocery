@@ -8,13 +8,117 @@ Option Explicit On
 
 Public Class StansGroceryForm
 
-    'Creats a raw data array containing all data split up by any carriage line feeds
-    Dim rawDataArray() As String = Split(My.Resources.Grocery, vbCrLf)
-    'Creates a proccessed (food) data array whose row count is the size of the raw data array with three total columns (food, location, and descrption)
-    Dim food(rawDataArray.Length - 1, 2) As String
+    'Creats a raw data array containing any data when written to
+    Dim rawDataArray() As String
+    'Creates a proccessed (food) data array whose row count is the size of the raw data array with three total columns (food, location, and descrption) when written to
+    Dim food(0, 2) As String
 
     'On form load
     Private Sub StansGroceryForm_Load(sender As Object, e As EventArgs) Handles Me.Load
+
+        'Finds a new file based on what the user selects
+        FindNewFileToolStripMenuItem_Click(sender, e)
+
+    End Sub
+
+    'When the user closes the main form, it closes the program and main form
+    Private Sub StansGroceryForm_Closed(sender As Object, e As EventArgs) Handles Me.Closed, ExitToolStripMenuItem1.Click, ExitToolStripMenuItem.Click
+        SplashScreenForm.Close()
+    End Sub
+
+    'About Tool Strip Menu Button
+    Private Sub AboutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutToolStripMenuItem.Click
+        Me.Hide()
+        AboutForm.Show()
+    End Sub
+
+    'This is what happens when the user selects a list box item
+    Private Sub DisplayListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DisplayListBox.SelectedIndexChanged
+
+        'Stores the choosen item when picked and informs the user on the item's whereabouts
+        Dim listChoosenStr As String = DisplayListBox.Text
+
+        'Searches the food list for that specific food item and displays the known data on it
+        For i As Integer = 0 To rawDataArray.Length - 1
+
+            If listChoosenStr = food(i, 0) Then
+
+                DisplayTextBox.Text = $"You will find '{food(i, 0)}' on aisle '{food(i, 1)}' with the '{food(i, 2)}'."
+
+            End If
+
+        Next
+    End Sub
+
+    'This is what happens when the search function is pressed
+    Private Sub SearchButton_Click(sender As Object, e As EventArgs) Handles SearchButton.Click, SearchToolStripMenuItem.Click, SearchToolStripMenuItem1.Click
+
+        'Clears the current list box to fit new data
+        DisplayListBox.Items.Clear()
+        AisleRadioButton.Checked = True
+
+        For i As Integer = 0 To rawDataArray.Length - 1
+
+            'If the search character is in the data, then add items, also compare method text is not case sensitive
+            If InStr(1, food(i, 0), SearchTextBox.Text, CompareMethod.Text) > 0 Then
+
+                DisplayListBox.Items.Add(food(i, 0))
+
+            End If
+
+        Next
+
+    End Sub
+
+    'This is what happens when the user uses the find new file button in the menu strip
+    Private Sub FindNewFileToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FindNewFileToolStripMenuItem.Click
+
+        'This ensures the user cant crash the program
+        EnableEverything(False)
+
+        Dim fileFound As Boolean = False
+
+        Do Until fileFound
+            'Opens the file dialog so the user can choose the data file
+            If OpenFileDialog.ShowDialog <> Windows.Forms.DialogResult.Cancel Then
+                Try
+                    rawDataArray = Split(My.Computer.FileSystem.ReadAllText(OpenFileDialog.FileName), vbCrLf)
+                    ReDim food(rawDataArray.Length - 1, 2)
+                    EnableEverything(True)
+                    FillListBox()
+                    fileFound = True
+                Catch ex As Exception
+                    If MessageBox.Show("File Not Found, do you want to try again?", "Try Again?", MessageBoxButtons.YesNo) = DialogResult.No Then
+                        SplashScreenForm.Close()
+                        Me.Close()
+                    End If
+                End Try
+            Else
+                If MessageBox.Show("File Not Found, do you want to try again?", "Try Again?", MessageBoxButtons.YesNo) = DialogResult.No Then
+                    SplashScreenForm.Close()
+                    Me.Close()
+                End If
+            End If
+        Loop
+
+    End Sub
+
+    'This is used in the even everything needs to be enabled to disabled unitl a conditino is met
+    Sub EnableEverything(enableEverything As Boolean)
+
+        SearchGroupBox.Enabled = enableEverything
+        FilterGroupBox.Enabled = enableEverything
+        MainMenuStrip.Enabled = enableEverything
+        ContextMenuStrip1.Enabled = enableEverything
+
+    End Sub
+
+    'This fills the list box with the original data set
+    Sub FillListBox()
+
+        'This clears the list box and sets radio button
+        DisplayListBox.Items.Clear()
+        AisleRadioButton.Checked = True
 
         'This will be used to split each raw data array line
         Dim temp() As String
@@ -67,35 +171,9 @@ Public Class StansGroceryForm
             DisplayListBox.Items.Add(food(i, 0))
 
         Next
+
     End Sub
 
-    'When the user closes the main form, it closes the program and main form
-    Private Sub StansGroceryForm_Closed(sender As Object, e As EventArgs) Handles Me.Closed, ExitToolStripMenuItem1.Click, ExitToolStripMenuItem.Click
-        SplashScreenForm.Close()
-    End Sub
 
-    'About Tool Strip Menu Button
-    Private Sub AboutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutToolStripMenuItem.Click
-        Me.Hide()
-        AboutForm.Show()
-    End Sub
-
-    'This is what happens when the user selects a list box item
-    Private Sub DisplayListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DisplayListBox.SelectedIndexChanged
-
-        'Stores the choosen item when picked and informs the user on the item's whereabouts
-        Dim listChoosenStr As String = DisplayListBox.Text
-
-        'Searches the food list for that specific food item and displays the known data on it
-        For i As Integer = 0 To rawDataArray.Length - 1
-
-            If listChoosenStr = food(i, 0) Then
-
-                DisplayTextBox.Text = $"You will find '{food(i, 0)}' on aisle '{food(i, 1)}' with the '{food(i, 2)}'."
-
-            End If
-
-        Next
-    End Sub
 
 End Class

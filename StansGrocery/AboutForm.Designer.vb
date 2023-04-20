@@ -25,6 +25,7 @@ Partial Class AboutForm
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AboutForm))
         Me.ExitButton = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.AboutLabel2 = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'ExitButton
@@ -46,11 +47,22 @@ Partial Class AboutForm
         Me.Label1.TabIndex = 2
         Me.Label1.Text = resources.GetString("Label1.Text")
         '
+        'AboutLabel2
+        '
+        Me.AboutLabel2.AutoSize = True
+        Me.AboutLabel2.Location = New System.Drawing.Point(28, 319)
+        Me.AboutLabel2.Name = "AboutLabel2"
+        Me.AboutLabel2.Size = New System.Drawing.Size(423, 60)
+        Me.AboutLabel2.TabIndex = 3
+        Me.AboutLabel2.Text = "**THE USER CAN SWITCH WHICH TEXT FILE TO PULL" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "THE DATA FROM USING THE TOP MENU S" &
+    "TRIP > Find New File" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
+        '
         'AboutForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.AboutLabel2)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.ExitButton)
         Me.Name = "AboutForm"
@@ -62,4 +74,5 @@ Partial Class AboutForm
 
     Friend WithEvents ExitButton As Button
     Friend WithEvents Label1 As Label
+    Friend WithEvents AboutLabel2 As Label
 End Class

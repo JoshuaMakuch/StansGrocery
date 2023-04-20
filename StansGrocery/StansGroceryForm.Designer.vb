@@ -27,6 +27,7 @@ Partial Class StansGroceryForm
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SearchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.FindNewFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
@@ -46,6 +47,7 @@ Partial Class StansGroceryForm
         Me.DisplayListBoxLabel = New System.Windows.Forms.Label()
         Me.ItemInformationLabel = New System.Windows.Forms.Label()
         Me.DisplayTextBox = New System.Windows.Forms.TextBox()
+        Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog()
         Me.MainMenuStrip.SuspendLayout()
         Me.SearchGroupBox.SuspendLayout()
         Me.FilterGroupBox.SuspendLayout()
@@ -64,7 +66,7 @@ Partial Class StansGroceryForm
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SearchToolStripMenuItem, Me.ExitToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SearchToolStripMenuItem, Me.ExitToolStripMenuItem, Me.FindNewFileToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
         Me.FileToolStripMenuItem.Size = New System.Drawing.Size(46, 24)
         Me.FileToolStripMenuItem.Text = "File"
@@ -72,14 +74,20 @@ Partial Class StansGroceryForm
         'SearchToolStripMenuItem
         '
         Me.SearchToolStripMenuItem.Name = "SearchToolStripMenuItem"
-        Me.SearchToolStripMenuItem.Size = New System.Drawing.Size(136, 26)
+        Me.SearchToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
         Me.SearchToolStripMenuItem.Text = "Search"
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(136, 26)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
         Me.ExitToolStripMenuItem.Text = "Exit"
+        '
+        'FindNewFileToolStripMenuItem
+        '
+        Me.FindNewFileToolStripMenuItem.Name = "FindNewFileToolStripMenuItem"
+        Me.FindNewFileToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.FindNewFileToolStripMenuItem.Text = "Find New File"
         '
         'HelpToolStripMenuItem
         '
@@ -242,10 +250,16 @@ Partial Class StansGroceryForm
         Me.DisplayTextBox.Size = New System.Drawing.Size(841, 27)
         Me.DisplayTextBox.TabIndex = 6
         '
+        'OpenFileDialog
+        '
+        Me.OpenFileDialog.FileName = "OpenFileDialog"
+        '
         'StansGroceryForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoSize = True
+        Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(870, 469)
         Me.Controls.Add(Me.ItemInformationLabel)
         Me.Controls.Add(Me.DisplayTextBox)
@@ -291,4 +305,6 @@ Partial Class StansGroceryForm
     Friend WithEvents DisplayListBoxLabel As Label
     Friend WithEvents ItemInformationLabel As Label
     Friend WithEvents DisplayTextBox As TextBox
+    Friend WithEvents FindNewFileToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents OpenFileDialog As OpenFileDialog
 End Class
