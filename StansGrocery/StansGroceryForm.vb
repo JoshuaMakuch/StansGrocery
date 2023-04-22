@@ -14,11 +14,17 @@ Public Class StansGroceryForm
     'Creates a proccessed (food) data array whose row count is the size of the raw data array with three total columns (food, location, and descrption) when written to
     Dim food(0, 2) As String
 
+    'Form Events---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
     'On form load
     Private Sub StansGroceryForm_Load(sender As Object, e As EventArgs) Handles Me.Load
 
         'Finds a new file based on what the user selects
         FindNewFileToolStripMenuItem_Click(sender, e)
+
+        'Does some initialization
+        FilterComboBox.Items.Add("View All")
+        FilterComboBox.SelectedIndex = 0
 
     End Sub
 
@@ -31,6 +37,66 @@ Public Class StansGroceryForm
     Private Sub AboutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutToolStripMenuItem.Click
         Me.Hide()
         AboutForm.Show()
+    End Sub
+
+    'This is what happens when the user uses the find new file button in the menu strip
+    Private Sub FindNewFileToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FindNewFileToolStripMenuItem.Click
+
+        'This ensures the user cant crash the program
+        EnableEverything(False)
+
+        Dim fileFound As Boolean = False
+
+        Do Until fileFound
+            'Opens the file dialog so the user can choose the data file
+            If OpenFileDialog.ShowDialog <> Windows.Forms.DialogResult.Cancel Then
+                Try
+                    rawDataArray = Split(My.Computer.FileSystem.ReadAllText(OpenFileDialog.FileName), vbCrLf)
+                    ReDim food(rawDataArray.Length - 1, 2)
+                    EnableEverything(True)
+                    fileFound = True
+                Catch ex As Exception
+                    If MessageBox.Show("File Not Found, do you want to try again?", "Try Again?", MessageBoxButtons.YesNo) = DialogResult.No Then
+                        SplashScreenForm.Close()
+                        Me.Close()
+                        Exit Sub
+                    End If
+                End Try
+            Else
+                If MessageBox.Show("File Not Found, do you want to try again?", "Try Again?", MessageBoxButtons.YesNo) = DialogResult.No Then
+                    SplashScreenForm.Close()
+                    Me.Close()
+                    Exit Sub
+                End If
+            End If
+        Loop
+
+        FillListBox()
+
+    End Sub
+
+    'This is what happens when the search function is pressed
+    Private Sub SearchButton_Click(sender As Object, e As EventArgs) Handles SearchButton.Click, SearchToolStripMenuItem.Click, SearchToolStripMenuItem1.Click
+
+        'Clears the current list box to fit new data
+        DisplayListBox.Items.Clear()
+        AisleRadioButton.Checked = True
+
+        'Iterate through all possible options
+        For i As Integer = 0 To rawDataArray.Length - 1
+
+            'If the search character is in the data then add item, also compare method "text" is not case sensitive
+            If InStr(1, food(i, 0), SearchTextBox.Text, CompareMethod.Text) > 0 Then
+
+                DisplayListBox.Items.Add(food(i, 0))
+
+            End If
+
+        Next
+
+        'This sorts the list box alphabetically
+        DisplayListBox.Sorted = True
+
     End Sub
 
     'This is what happens when the user selects a list box item
@@ -50,63 +116,52 @@ Public Class StansGroceryForm
 
         Next
     End Sub
+    'When the user presses the aisle radio button
+    Private Sub AisleRadioButton_Click(sender As Object, e As EventArgs) Handles AisleRadioButton.Click
+        'Automatically sets the selcted index to "View All"
+        FilterComboBox.SelectedIndex = 0
 
-    'This is what happens when the search function is pressed
-    Private Sub SearchButton_Click(sender As Object, e As EventArgs) Handles SearchButton.Click, SearchToolStripMenuItem.Click, SearchToolStripMenuItem1.Click
+        'Clears all items in a combo box except the "View All" Option
+        FilterComboBox.Items.Clear()
+        FilterComboBox.Items.Add("View All")
 
-        'Clears the current list box to fit new data
-        DisplayListBox.Items.Clear()
-        AisleRadioButton.Checked = True
-
-        For i As Integer = 0 To rawDataArray.Length - 1
-
-            'If the search character is in the data, then add items, also compare method text is not case sensitive
-            If InStr(1, food(i, 0), SearchTextBox.Text, CompareMethod.Text) > 0 Then
-
-                DisplayListBox.Items.Add(food(i, 0))
-
-            End If
-
-        Next
-
-    End Sub
-
-    'This is what happens when the user uses the find new file button in the menu strip
-    Private Sub FindNewFileToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FindNewFileToolStripMenuItem.Click
-
-        'This ensures the user cant crash the program
-        EnableEverything(False)
-
-        Dim fileFound As Boolean = False
-
-        Do Until fileFound
-            'Opens the file dialog so the user can choose the data file
-            If OpenFileDialog.ShowDialog <> Windows.Forms.DialogResult.Cancel Then
-                Try
-                    rawDataArray = Split(My.Computer.FileSystem.ReadAllText(OpenFileDialog.FileName), vbCrLf)
-                    ReDim food(rawDataArray.Length - 1, 2)
-                    EnableEverything(True)
-                    FillListBox()
-                    fileFound = True
-                Catch ex As Exception
-                    If MessageBox.Show("File Not Found, do you want to try again?", "Try Again?", MessageBoxButtons.YesNo) = DialogResult.No Then
-                        SplashScreenForm.Close()
-                        Me.Close()
-                        Exit Sub
-                    End If
-                End Try
-            Else
-                If MessageBox.Show("File Not Found, do you want to try again?", "Try Again?", MessageBoxButtons.YesNo) = DialogResult.No Then
-                    SplashScreenForm.Close()
-                    Me.Close()
-                    Exit Sub
+        For i As Integer = 0 To DisplayListBox.Items.Count - 1 'For each item in the list box
+            For n As Integer = 0 To rawDataArray.Length - 1 'For each item in the whole data set
+                'When the item is found in the food array and the fitler type isnt already in the filter combo box item list, then add the filter option to the combo box list
+                If food(n, 0) Is DisplayListBox.Items(i) And Not FilterComboBox.Items.Contains(food(n, 1)) Then
+                    FilterComboBox.Items.Add(food(n, 1))
                 End If
-            End If
-        Loop
-
+            Next
+        Next
+        FilterComboBox.Refresh()
     End Sub
+    'When the user presses the category radio button
+    Private Sub CategoryRadioButton_Click(sender As Object, e As EventArgs) Handles CategoryRadioButton.Click
 
-    'This is used in the even everything needs to be enabled to disabled unitl a conditino is met
+        'Automatically sets the selcted index to "View All"
+        FilterComboBox.SelectedIndex = 0
+
+        'Clears all items in a combo box except the "View All" Option
+        FilterComboBox.Items.Clear()
+        FilterComboBox.Items.Add("View All")
+
+
+        For i As Integer = 0 To DisplayListBox.Items.Count - 1 'For each item in the list box
+            For n As Integer = 0 To rawDataArray.Length - 1 'For each item in the whole data set
+                'When the item is found in the food array and the fitler type isnt already in the filter combo box item list, then add the filter option to the combo box list
+                If food(n, 0) Is DisplayListBox.Items(i) And Not FilterComboBox.Items.Contains(food(n, 2)) Then
+                    FilterComboBox.Items.Add(food(n, 2))
+                End If
+            Next
+        Next
+        FilterComboBox.Refresh()
+    End Sub
+    'When the user chooses a filter combo box item
+
+
+    'Custom Subs---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    'This enables or disables all controls to prevent user-induced control errors
     Sub EnableEverything(enableEverything As Boolean)
 
         SearchGroupBox.Enabled = enableEverything
@@ -121,7 +176,6 @@ Public Class StansGroceryForm
 
         'This clears the list box and sets radio button
         DisplayListBox.Items.Clear()
-        AisleRadioButton.Checked = True
 
         'This will be used to split each raw data array line
         Dim temp() As String
@@ -175,8 +229,10 @@ Public Class StansGroceryForm
 
         Next
 
-    End Sub
+        'This sorts the list box by alphabetical
+        DisplayListBox.Sorted = True
 
+    End Sub
 
 
 End Class

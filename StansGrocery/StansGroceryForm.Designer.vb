@@ -74,19 +74,19 @@ Partial Class StansGroceryForm
         'SearchToolStripMenuItem
         '
         Me.SearchToolStripMenuItem.Name = "SearchToolStripMenuItem"
-        Me.SearchToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.SearchToolStripMenuItem.Size = New System.Drawing.Size(181, 26)
         Me.SearchToolStripMenuItem.Text = "Search"
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(181, 26)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'FindNewFileToolStripMenuItem
         '
         Me.FindNewFileToolStripMenuItem.Name = "FindNewFileToolStripMenuItem"
-        Me.FindNewFileToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.FindNewFileToolStripMenuItem.Size = New System.Drawing.Size(181, 26)
         Me.FindNewFileToolStripMenuItem.Text = "Find New File"
         '
         'HelpToolStripMenuItem
