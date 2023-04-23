@@ -24,10 +24,6 @@ Public Class StansGroceryForm
         'Finds a new file based on what the user selects
         FindNewFileToolStripMenuItem_Click(sender, e)
 
-        'Does some initialization
-        FilterComboBox.Items.Add("View All")
-        FilterComboBox.SelectedIndex = 0
-
     End Sub
 
     'When the user closes the main form, it closes the program and main form
@@ -132,8 +128,6 @@ Public Class StansGroceryForm
 
     'When the user presses the aisle radio button
     Private Sub AisleRadioButton_Click(sender As Object, e As EventArgs) Handles AisleRadioButton.Click
-        'Automatically sets the selcted index to "View All"
-        FilterComboBox.SelectedIndex = 0
 
         'Clears all items in a combo box except the "View All" Option
         FilterComboBox.Items.Clear()
@@ -152,9 +146,6 @@ Public Class StansGroceryForm
 
     'When the user presses the category radio button
     Private Sub CategoryRadioButton_Click(sender As Object, e As EventArgs) Handles CategoryRadioButton.Click
-
-        'Automatically sets the selcted index to "View All"
-        FilterComboBox.SelectedIndex = 0
 
         'Clears all items in a combo box except the "View All" Option
         FilterComboBox.Items.Clear()
@@ -178,20 +169,23 @@ Public Class StansGroceryForm
         'Clears the list box of items to be able to store new values
         DisplayListBox.Items.Clear()
 
-        If FilterComboBox.SelectedText = "View All" Then 'If View all is selected, then refill the list box with the search array storage
+        'The reason the conversion to string is needed is because in order to find the selected filter combo box text, you must find the selected index and find the item
+        'matching said index (.selected text doesnt work, it acts like a que and pulls the old selected text rather than the newest one).
+        If CStr(FilterComboBox.Items(FilterComboBox.SelectedIndex)) = "View All" Then 'If View all is selected, then refill the list box with the search array storage
             DisplayListBox.Items.AddRange(searchArrayStorage) 'Adds the entire array of search array storage
         Else 'If not view all then only display list box items who have matched the aisle/category
-            For i As Integer = 0 To searchArrayStorage.Length - 1
-                For n As Integer = 0 To rawDataArray.Length - 1
-                    If food(n, 0) = searchArrayStorage(i) And food(n, 1) = FilterComboBox.SelectedText Then
-                        DisplayListBox.Items.Add(searchArrayStorage(i))
-                    ElseIf food(n, 0) = searchArrayStorage(i) And food(n, 2) = FilterComboBox.SelectedText Then
-                        DisplayListBox.Items.Add(searchArrayStorage(i))
+            For i As Integer = 0 To searchArrayStorage.Length - 1 'For each item in the original stored array
+                For n As Integer = 0 To rawDataArray.Length - 1 'For each item in the total raw data array
+                    If food(n, 0) = searchArrayStorage(i) And food(n, 1) = CStr(FilterComboBox.Items(FilterComboBox.SelectedIndex)) Then
+                        DisplayListBox.Items.Add(searchArrayStorage(i)) 'Add the item if it's aisle matches the new combo box filter
+                    ElseIf food(n, 0) = searchArrayStorage(i) And food(n, 2) = CStr(FilterComboBox.Items(FilterComboBox.SelectedIndex)) Then
+                        DisplayListBox.Items.Add(searchArrayStorage(i)) 'Add the item if it's category matches the new combo box filter
                     End If
                 Next
             Next
         End If
-        DisplayListBox.Sorted = True
+
+        DisplayListBox.Sorted = True 'Sort alphabetically
 
     End Sub
 
