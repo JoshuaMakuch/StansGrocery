@@ -189,7 +189,6 @@ Public Class StansGroceryForm
 
     End Sub
 
-
     'Custom Subs---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     'This enables or disables all controls to prevent user-induced control errors
