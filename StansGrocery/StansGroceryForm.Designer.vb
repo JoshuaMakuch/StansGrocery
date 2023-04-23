@@ -48,6 +48,7 @@ Partial Class StansGroceryForm
         Me.ItemInformationLabel = New System.Windows.Forms.Label()
         Me.DisplayTextBox = New System.Windows.Forms.TextBox()
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog()
+        Me.ExitButton = New System.Windows.Forms.Button()
         Me.MainMenuStrip.SuspendLayout()
         Me.SearchGroupBox.SuspendLayout()
         Me.FilterGroupBox.SuspendLayout()
@@ -247,20 +248,32 @@ Partial Class StansGroceryForm
         '
         Me.DisplayTextBox.Location = New System.Drawing.Point(12, 410)
         Me.DisplayTextBox.Name = "DisplayTextBox"
-        Me.DisplayTextBox.Size = New System.Drawing.Size(841, 27)
+        Me.DisplayTextBox.Size = New System.Drawing.Size(684, 27)
         Me.DisplayTextBox.TabIndex = 6
         '
         'OpenFileDialog
         '
         Me.OpenFileDialog.FileName = "OpenFileDialog"
         '
+        'ExitButton
+        '
+        Me.ExitButton.Location = New System.Drawing.Point(735, 396)
+        Me.ExitButton.Name = "ExitButton"
+        Me.ExitButton.Size = New System.Drawing.Size(118, 55)
+        Me.ExitButton.TabIndex = 8
+        Me.ExitButton.Text = "Exit"
+        Me.ExitButton.UseVisualStyleBackColor = True
+        '
         'StansGroceryForm
         '
+        Me.AcceptButton = Me.SearchButton
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSize = True
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.CancelButton = Me.ExitButton
         Me.ClientSize = New System.Drawing.Size(870, 469)
+        Me.Controls.Add(Me.ExitButton)
         Me.Controls.Add(Me.ItemInformationLabel)
         Me.Controls.Add(Me.DisplayTextBox)
         Me.Controls.Add(Me.DisplayListBoxLabel)
@@ -307,4 +320,5 @@ Partial Class StansGroceryForm
     Friend WithEvents DisplayTextBox As TextBox
     Friend WithEvents FindNewFileToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents OpenFileDialog As OpenFileDialog
+    Friend WithEvents ExitButton As Button
 End Class

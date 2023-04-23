@@ -13,6 +13,8 @@ Public Class StansGroceryForm
     Dim rawDataArray() As String
     'Creates a proccessed (food) data array whose row count is the size of the raw data array with three total columns (food, location, and descrption) when written to
     Dim food(0, 2) As String
+    'This stores an array with a listbox after the search button is clicked for use in filtering
+    Dim searchArrayStorage As String()
 
     'Form Events---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -30,6 +32,11 @@ Public Class StansGroceryForm
 
     'When the user closes the main form, it closes the program and main form
     Private Sub StansGroceryForm_Closed(sender As Object, e As EventArgs) Handles Me.Closed, ExitToolStripMenuItem1.Click, ExitToolStripMenuItem.Click
+        SplashScreenForm.Close()
+    End Sub
+
+    'When the user presses the exit button
+    Private Sub ExitButton_Click(sender As Object, e As EventArgs) Handles ExitButton.Click
         SplashScreenForm.Close()
     End Sub
 
@@ -80,7 +87,6 @@ Public Class StansGroceryForm
 
         'Clears the current list box to fit new data
         DisplayListBox.Items.Clear()
-        AisleRadioButton.Checked = True
 
         'Iterate through all possible options
         For i As Integer = 0 To rawDataArray.Length - 1
@@ -96,6 +102,13 @@ Public Class StansGroceryForm
 
         'This sorts the list box alphabetically
         DisplayListBox.Sorted = True
+
+        'This stores search result into an array for use in filtering
+        searchArrayStorage = DisplayListBox.Items.OfType(Of String).ToArray
+
+        'This sets aisle button to be true
+        AisleRadioButton.Checked = True
+        AisleRadioButton_Click(sender, e)
 
     End Sub
 
@@ -116,6 +129,7 @@ Public Class StansGroceryForm
 
         Next
     End Sub
+
     'When the user presses the aisle radio button
     Private Sub AisleRadioButton_Click(sender As Object, e As EventArgs) Handles AisleRadioButton.Click
         'Automatically sets the selcted index to "View All"
@@ -135,6 +149,7 @@ Public Class StansGroceryForm
         Next
         FilterComboBox.Refresh()
     End Sub
+
     'When the user presses the category radio button
     Private Sub CategoryRadioButton_Click(sender As Object, e As EventArgs) Handles CategoryRadioButton.Click
 
@@ -156,7 +171,29 @@ Public Class StansGroceryForm
         Next
         FilterComboBox.Refresh()
     End Sub
-    'When the user chooses a filter combo box item
+
+    'When the user chooses a filter combo box item and commits to it
+    Private Sub FilterComboBox_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles FilterComboBox.SelectionChangeCommitted
+
+        'Clears the list box of items to be able to store new values
+        DisplayListBox.Items.Clear()
+
+        If FilterComboBox.SelectedText = "View All" Then 'If View all is selected, then refill the list box with the search array storage
+            DisplayListBox.Items.AddRange(searchArrayStorage) 'Adds the entire array of search array storage
+        Else 'If not view all then only display list box items who have matched the aisle/category
+            For i As Integer = 0 To searchArrayStorage.Length - 1
+                For n As Integer = 0 To rawDataArray.Length - 1
+                    If food(n, 0) = searchArrayStorage(i) And food(n, 1) = FilterComboBox.SelectedText Then
+                        DisplayListBox.Items.Add(searchArrayStorage(i))
+                    ElseIf food(n, 0) = searchArrayStorage(i) And food(n, 2) = FilterComboBox.SelectedText Then
+                        DisplayListBox.Items.Add(searchArrayStorage(i))
+                    End If
+                Next
+            Next
+        End If
+        DisplayListBox.Sorted = True
+
+    End Sub
 
 
     'Custom Subs---------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -233,6 +270,5 @@ Public Class StansGroceryForm
         DisplayListBox.Sorted = True
 
     End Sub
-
 
 End Class
