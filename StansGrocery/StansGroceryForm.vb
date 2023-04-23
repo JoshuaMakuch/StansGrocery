@@ -23,6 +23,10 @@ Public Class StansGroceryForm
 
         'Finds a new file based on what the user selects
         FindNewFileToolStripMenuItem_Click(sender, e)
+        'This sets the aisle radio button
+        AisleRadioButton_Click(sender, e)
+        'This does an inital search to fill up the searchArrayStorage array to prevent crashes
+        SearchButton_Click(sender, e)
 
     End Sub
 
@@ -75,12 +79,17 @@ Public Class StansGroceryForm
         Loop
 
         FillListBox() 'This fills the list box with ALL possible data poinst
-        AisleRadioButton_Click(sender, e) 'This sets the aisle radio button
 
     End Sub
 
     'This is what happens when the search function is pressed
     Private Sub SearchButton_Click(sender As Object, e As EventArgs) Handles SearchButton.Click, SearchToolStripMenuItem.Click, SearchToolStripMenuItem1.Click
+
+        'Ends the program if "zzz" is typed in the search box
+        If SearchTextBox.Text.ToLower = "zzz" Then
+            SplashScreenForm.Close()
+            Me.Close()
+        End If
 
         'Clears the current list box to fit new data
         DisplayListBox.Items.Clear()
@@ -150,10 +159,11 @@ Public Class StansGroceryForm
             Next
         Next
 
-        'Sorts the filter combo box alphabetically and adds the view all option to the beginning
+        'Sorts the filter combo box alphabetically and adds the view all option to the beginning and selects the view all option
         FilterComboBox.Sorted = True
         FilterComboBox.Sorted = False
         FilterComboBox.Items.Insert(0, "View All")
+        FilterComboBox.SelectedIndex = 0
 
     End Sub
 
@@ -172,10 +182,11 @@ Public Class StansGroceryForm
             Next
         Next
 
-        'Sorts the filter combo box alphabetically and adds the view all option to the beginning
+        'Sorts the filter combo box alphabetically and adds the view all option to the beginning and selects the view all option
         FilterComboBox.Sorted = True
         FilterComboBox.Sorted = False
         FilterComboBox.Items.Insert(0, "View All")
+        FilterComboBox.SelectedIndex = 0
 
     End Sub
 
