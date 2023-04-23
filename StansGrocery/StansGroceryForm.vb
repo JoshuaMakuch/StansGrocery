@@ -74,7 +74,8 @@ Public Class StansGroceryForm
             End If
         Loop
 
-        FillListBox()
+        FillListBox() 'This fills the list box with ALL possible data poinst
+        AisleRadioButton_Click(sender, e) 'This sets the aisle radio button
 
     End Sub
 
@@ -84,6 +85,9 @@ Public Class StansGroceryForm
         'Clears the current list box to fit new data
         DisplayListBox.Items.Clear()
 
+        'Allows for the event that no items matching the description are foound
+        Dim somethingFound As Boolean = False
+
         'Iterate through all possible options
         For i As Integer = 0 To rawDataArray.Length - 1
 
@@ -91,10 +95,15 @@ Public Class StansGroceryForm
             If InStr(1, food(i, 0), SearchTextBox.Text, CompareMethod.Text) > 0 Then
 
                 DisplayListBox.Items.Add(food(i, 0))
+                somethingFound = True
 
             End If
 
         Next
+
+        If Not somethingFound Then
+            DisplayTextBox.Text = "Sorry, nothing was found matching that description..."
+        End If
 
         'This sorts the list box alphabetically
         DisplayListBox.Sorted = True
@@ -131,7 +140,6 @@ Public Class StansGroceryForm
 
         'Clears all items in a combo box except the "View All" Option
         FilterComboBox.Items.Clear()
-        FilterComboBox.Items.Add("View All")
 
         For i As Integer = 0 To DisplayListBox.Items.Count - 1 'For each item in the list box
             For n As Integer = 0 To rawDataArray.Length - 1 'For each item in the whole data set
@@ -141,16 +149,19 @@ Public Class StansGroceryForm
                 End If
             Next
         Next
-        FilterComboBox.Refresh()
+
+        'Sorts the filter combo box alphabetically and adds the view all option to the beginning
+        FilterComboBox.Sorted = True
+        FilterComboBox.Sorted = False
+        FilterComboBox.Items.Insert(0, "View All")
+
     End Sub
 
     'When the user presses the category radio button
     Private Sub CategoryRadioButton_Click(sender As Object, e As EventArgs) Handles CategoryRadioButton.Click
 
-        'Clears all items in a combo box except the "View All" Option
+        'Clears all items in a combo box
         FilterComboBox.Items.Clear()
-        FilterComboBox.Items.Add("View All")
-
 
         For i As Integer = 0 To DisplayListBox.Items.Count - 1 'For each item in the list box
             For n As Integer = 0 To rawDataArray.Length - 1 'For each item in the whole data set
@@ -160,7 +171,12 @@ Public Class StansGroceryForm
                 End If
             Next
         Next
-        FilterComboBox.Refresh()
+
+        'Sorts the filter combo box alphabetically and adds the view all option to the beginning
+        FilterComboBox.Sorted = True
+        FilterComboBox.Sorted = False
+        FilterComboBox.Items.Insert(0, "View All")
+
     End Sub
 
     'When the user chooses a filter combo box item and commits to it
