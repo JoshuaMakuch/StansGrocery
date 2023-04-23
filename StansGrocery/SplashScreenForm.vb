@@ -15,6 +15,7 @@ Public NotInheritable Class SplashScreenForm
         Me.Hide()
         SplashTimer.Enabled = False
     End Sub
+
     'This will automatically go from the splash screen to the main form after some time and changes the progress bar
     Private Sub SplashTimer_Tick(sender As Object, e As EventArgs) Handles SplashTimer.Tick
         SplashProgressBar.Increment(5)
@@ -28,6 +29,7 @@ Public NotInheritable Class SplashScreenForm
         End If
         elapsedTime += 25
     End Sub
+
     'Ensures the splash screen timer is activated on load
     Private Sub SplashScreenForm_Load(sender As Object, e As EventArgs) Handles Me.Load
         SplashTimer.Enabled = True

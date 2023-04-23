@@ -23,10 +23,6 @@ Public Class StansGroceryForm
 
         'Finds a new file based on what the user selects
         FindNewFileToolStripMenuItem_Click(sender, e)
-        'This sets the aisle radio button
-        AisleRadioButton_Click(sender, e)
-        'This does an inital search to fill up the searchArrayStorage array to prevent crashes
-        SearchButton_Click(sender, e)
 
     End Sub
 
@@ -49,7 +45,7 @@ Public Class StansGroceryForm
     'This is what happens when the user uses the find new file button in the menu strip
     Private Sub FindNewFileToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FindNewFileToolStripMenuItem.Click
 
-        'This ensures the user cant crash the program
+        'This ensures the user cant crash the program while finding a file
         EnableEverything(False)
 
         Dim fileFound As Boolean = False
@@ -63,22 +59,25 @@ Public Class StansGroceryForm
                     EnableEverything(True)
                     fileFound = True
                 Catch ex As Exception
-                    If MessageBox.Show("File Not Found, do you want to try again?", "Try Again?", MessageBoxButtons.YesNo) = DialogResult.No Then
+                    If MessageBox.Show("File Not Found, do you want to try again? (Choosing no will close the file)", "Try Again?", MessageBoxButtons.YesNo) = DialogResult.No Then
                         SplashScreenForm.Close()
                         Me.Close()
-                        Exit Sub
+                        Exit Sub 'This makes sure that the .close function finishes and prevents an endless loop 
                     End If
                 End Try
             Else
-                If MessageBox.Show("File Not Found, do you want to try again?", "Try Again?", MessageBoxButtons.YesNo) = DialogResult.No Then
+                If MessageBox.Show("File Not Found, do you want to try again? (Choosing no will close the file)", "Try Again?", MessageBoxButtons.YesNo) = DialogResult.No Then
                     SplashScreenForm.Close()
                     Me.Close()
-                    Exit Sub
+                    Exit Sub 'This makes sure that the .close function finishes and prevents an endless loop 
                 End If
             End If
         Loop
 
-        FillListBox() 'This fills the list box with ALL possible data poinst
+        'This fills the list box with ALL possible data points
+        FillListBox()
+        'This does an inital search to fill up the searchArrayStorage array to prevent crashes. Its also here cause a custom sub doesnt have the sender/e variables
+        SearchButton_Click(sender, e)
 
     End Sub
 
@@ -110,6 +109,7 @@ Public Class StansGroceryForm
 
         Next
 
+        'If nothing is found that matches the description, tell the user
         If Not somethingFound Then
             DisplayTextBox.Text = "Sorry, nothing was found matching that description..."
         End If
@@ -117,7 +117,7 @@ Public Class StansGroceryForm
         'This sorts the list box alphabetically
         DisplayListBox.Sorted = True
 
-        'This stores search result into an array for use in filtering
+        'This stores search result into an array for use in filtering and specifically the view all function
         searchArrayStorage = DisplayListBox.Items.OfType(Of String).ToArray
 
         'This sets aisle button to be true
@@ -129,13 +129,10 @@ Public Class StansGroceryForm
     'This is what happens when the user selects a list box item
     Private Sub DisplayListBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles DisplayListBox.SelectedIndexChanged
 
-        'Stores the choosen item when picked and informs the user on the item's whereabouts
-        Dim listChoosenStr As String = DisplayListBox.Text
-
         'Searches the food list for that specific food item and displays the known data on it
         For i As Integer = 0 To rawDataArray.Length - 1
 
-            If listChoosenStr = food(i, 0) Then
+            If DisplayListBox.Text = food(i, 0) Then
 
                 DisplayTextBox.Text = $"You will find '{food(i, 0)}' on aisle '{food(i, 1)}' with the '{food(i, 2)}'."
 
@@ -147,46 +144,20 @@ Public Class StansGroceryForm
     'When the user presses the aisle radio button
     Private Sub AisleRadioButton_Click(sender As Object, e As EventArgs) Handles AisleRadioButton.Click
 
-        'Clears all items in a combo box except the "View All" Option
-        FilterComboBox.Items.Clear()
+        PartiallyFillComboBox(1) 'The reason one is used is due to the aisles data being in the "1" column of the food array
 
-        For i As Integer = 0 To DisplayListBox.Items.Count - 1 'For each item in the list box
-            For n As Integer = 0 To rawDataArray.Length - 1 'For each item in the whole data set
-                'When the item is found in the food array and the fitler type isnt already in the filter combo box item list, then add the filter option to the combo box list
-                If food(n, 0) Is DisplayListBox.Items(i) And Not FilterComboBox.Items.Contains(food(n, 1)) Then
-                    FilterComboBox.Items.Add(food(n, 1))
-                End If
-            Next
-        Next
-
-        'Sorts the filter combo box alphabetically and adds the view all option to the beginning and selects the view all option
-        FilterComboBox.Sorted = True
-        FilterComboBox.Sorted = False
-        FilterComboBox.Items.Insert(0, "View All")
-        FilterComboBox.SelectedIndex = 0
+        'Automatically sets to the view all option on radio button click
+        FilterComboBox_SelectionChangeCommitted(sender, e)
 
     End Sub
 
     'When the user presses the category radio button
     Private Sub CategoryRadioButton_Click(sender As Object, e As EventArgs) Handles CategoryRadioButton.Click
 
-        'Clears all items in a combo box
-        FilterComboBox.Items.Clear()
+        PartiallyFillComboBox(2) 'The reason two is used is due to the category data being in the "2" column of the food array
 
-        For i As Integer = 0 To DisplayListBox.Items.Count - 1 'For each item in the list box
-            For n As Integer = 0 To rawDataArray.Length - 1 'For each item in the whole data set
-                'When the item is found in the food array and the fitler type isnt already in the filter combo box item list, then add the filter option to the combo box list
-                If food(n, 0) Is DisplayListBox.Items(i) And Not FilterComboBox.Items.Contains(food(n, 2)) Then
-                    FilterComboBox.Items.Add(food(n, 2))
-                End If
-            Next
-        Next
-
-        'Sorts the filter combo box alphabetically and adds the view all option to the beginning and selects the view all option
-        FilterComboBox.Sorted = True
-        FilterComboBox.Sorted = False
-        FilterComboBox.Items.Insert(0, "View All")
-        FilterComboBox.SelectedIndex = 0
+        'Automatically sets to the view all option on radio button click
+        FilterComboBox_SelectionChangeCommitted(sender, e)
 
     End Sub
 
@@ -200,6 +171,12 @@ Public Class StansGroceryForm
         'matching said index (.selected text doesnt work, it acts like a que and pulls the old selected text rather than the newest one).
         If CStr(FilterComboBox.Items(FilterComboBox.SelectedIndex)) = "View All" Then 'If View all is selected, then refill the list box with the search array storage
             DisplayListBox.Items.AddRange(searchArrayStorage) 'Adds the entire array of search array storage
+            'This fills the filter combo box when view all is selected (this acts like a default setting and returns )
+            If AisleRadioButton.Checked Then
+                PartiallyFillComboBox(1) 'The reason one is used is due to the aisles data being in the "1" column of the food array
+            Else
+                PartiallyFillComboBox(2) 'The reason two is used is due to the category data being in the "2" column of the food array
+            End If
         Else 'If not view all then only display list box items who have matched the aisle/category
             For i As Integer = 0 To searchArrayStorage.Length - 1 'For each item in the original stored array
                 For n As Integer = 0 To rawDataArray.Length - 1 'For each item in the total raw data array
@@ -231,7 +208,7 @@ Public Class StansGroceryForm
     'This fills the list box with the original data set
     Sub FillListBox()
 
-        'This clears the list box and sets radio button
+        'This clears the list box
         DisplayListBox.Items.Clear()
 
         'This will be used to split each raw data array line
@@ -288,6 +265,29 @@ Public Class StansGroceryForm
 
         'This sorts the list box by alphabetical
         DisplayListBox.Sorted = True
+
+    End Sub
+
+    'This fills the filter combo box with data according to the incoming aisleOrCategory integer (1 for aisle, 2 for category)
+    Sub PartiallyFillComboBox(aisleOrCategory As Integer)
+        'Clears all items in a combo box except the "View All" Option
+        FilterComboBox.Items.Clear()
+
+        For i As Integer = 0 To DisplayListBox.Items.Count - 1 'For each item in the list box
+            For n As Integer = 0 To rawDataArray.Length - 1 'For each item in the whole data set
+                'When the item is found in the food array and the fitler type isnt already in the filter combo box item list, then add the filter option to the combo box list
+                If food(n, 0) Is DisplayListBox.Items(i) And Not FilterComboBox.Items.Contains(food(n, aisleOrCategory)) Then
+                    FilterComboBox.Items.Add(food(n, aisleOrCategory))
+                End If
+            Next
+        Next
+
+        'Sorts the filter combo box alphabetically and adds the view all option to the beginning
+        FilterComboBox.Sorted = True
+        FilterComboBox.Sorted = False 'This allows the "view all" item to stay at the top
+        FilterComboBox.Items.Insert(0, "View All")
+        'This prevents a bug when the user presses the "view all" filter option, that it dissapears
+        FilterComboBox.SelectedIndex = 0
 
     End Sub
 
