@@ -35,11 +35,12 @@ Partial Class StansGroceryForm
         Me.SearchButton = New System.Windows.Forms.Button()
         Me.SearchLabel = New System.Windows.Forms.Label()
         Me.SearchTextBox = New System.Windows.Forms.TextBox()
-        Me.FilterGroupBox = New System.Windows.Forms.GroupBox()
         Me.FilterComboBoxLabel = New System.Windows.Forms.Label()
-        Me.FilterComboBox = New System.Windows.Forms.ComboBox()
         Me.CategoryRadioButton = New System.Windows.Forms.RadioButton()
         Me.AisleRadioButton = New System.Windows.Forms.RadioButton()
+        Me.ExitButton = New System.Windows.Forms.Button()
+        Me.FilterGroupBox = New System.Windows.Forms.GroupBox()
+        Me.FilterComboBox = New System.Windows.Forms.ComboBox()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.SearchToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExitToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
@@ -48,7 +49,6 @@ Partial Class StansGroceryForm
         Me.ItemInformationLabel = New System.Windows.Forms.Label()
         Me.DisplayTextBox = New System.Windows.Forms.TextBox()
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog()
-        Me.ExitButton = New System.Windows.Forms.Button()
         Me.MainMenuStrip.SuspendLayout()
         Me.SearchGroupBox.SuspendLayout()
         Me.FilterGroupBox.SuspendLayout()
@@ -126,6 +126,7 @@ Partial Class StansGroceryForm
         Me.SearchButton.Size = New System.Drawing.Size(119, 51)
         Me.SearchButton.TabIndex = 1
         Me.SearchButton.Text = "&Search"
+        Me.ToolTip1.SetToolTip(Me.SearchButton, "Searches the grocery data for items that match the data in the search box")
         Me.SearchButton.UseVisualStyleBackColor = True
         '
         'SearchLabel
@@ -137,6 +138,7 @@ Partial Class StansGroceryForm
         Me.SearchLabel.Size = New System.Drawing.Size(53, 20)
         Me.SearchLabel.TabIndex = 3
         Me.SearchLabel.Text = "Search"
+        Me.ToolTip1.SetToolTip(Me.SearchLabel, "Search for items matching the description")
         '
         'SearchTextBox
         '
@@ -144,7 +146,52 @@ Partial Class StansGroceryForm
         Me.SearchTextBox.Margin = New System.Windows.Forms.Padding(2, 3, 2, 3)
         Me.SearchTextBox.Name = "SearchTextBox"
         Me.SearchTextBox.Size = New System.Drawing.Size(234, 27)
-        Me.SearchTextBox.TabIndex = 2
+        Me.SearchTextBox.TabIndex = 0
+        '
+        'FilterComboBoxLabel
+        '
+        Me.FilterComboBoxLabel.AutoSize = True
+        Me.FilterComboBoxLabel.Location = New System.Drawing.Point(172, 33)
+        Me.FilterComboBoxLabel.Name = "FilterComboBoxLabel"
+        Me.FilterComboBoxLabel.Size = New System.Drawing.Size(124, 20)
+        Me.FilterComboBoxLabel.TabIndex = 7
+        Me.FilterComboBoxLabel.Text = "Filter Combo Box"
+        Me.ToolTip1.SetToolTip(Me.FilterComboBoxLabel, "Which specific aisle/category")
+        '
+        'CategoryRadioButton
+        '
+        Me.CategoryRadioButton.AutoSize = True
+        Me.CategoryRadioButton.Location = New System.Drawing.Point(6, 59)
+        Me.CategoryRadioButton.Name = "CategoryRadioButton"
+        Me.CategoryRadioButton.Size = New System.Drawing.Size(147, 24)
+        Me.CategoryRadioButton.TabIndex = 5
+        Me.CategoryRadioButton.TabStop = True
+        Me.CategoryRadioButton.Text = "Filter By Category"
+        Me.ToolTip1.SetToolTip(Me.CategoryRadioButton, "Filter listed items by category")
+        Me.CategoryRadioButton.UseVisualStyleBackColor = True
+        '
+        'AisleRadioButton
+        '
+        Me.AisleRadioButton.AutoSize = True
+        Me.AisleRadioButton.Checked = True
+        Me.AisleRadioButton.Location = New System.Drawing.Point(6, 29)
+        Me.AisleRadioButton.Name = "AisleRadioButton"
+        Me.AisleRadioButton.Size = New System.Drawing.Size(119, 24)
+        Me.AisleRadioButton.TabIndex = 4
+        Me.AisleRadioButton.TabStop = True
+        Me.AisleRadioButton.Text = "Filter By Aisle"
+        Me.ToolTip1.SetToolTip(Me.AisleRadioButton, "Filter listed items by aisle number")
+        Me.AisleRadioButton.UseVisualStyleBackColor = True
+        '
+        'ExitButton
+        '
+        Me.ExitButton.Location = New System.Drawing.Point(712, 387)
+        Me.ExitButton.Name = "ExitButton"
+        Me.ExitButton.Size = New System.Drawing.Size(141, 70)
+        Me.ExitButton.TabIndex = 8
+        Me.ExitButton.Text = "Exit"
+        Me.ToolTip1.SetToolTip(Me.ExitButton, "This closes the program")
+        Me.ExitButton.UseVisualStyleBackColor = True
         '
         'FilterGroupBox
         '
@@ -159,15 +206,6 @@ Partial Class StansGroceryForm
         Me.FilterGroupBox.TabStop = False
         Me.FilterGroupBox.Text = "Filter"
         '
-        'FilterComboBoxLabel
-        '
-        Me.FilterComboBoxLabel.AutoSize = True
-        Me.FilterComboBoxLabel.Location = New System.Drawing.Point(172, 33)
-        Me.FilterComboBoxLabel.Name = "FilterComboBoxLabel"
-        Me.FilterComboBoxLabel.Size = New System.Drawing.Size(124, 20)
-        Me.FilterComboBoxLabel.TabIndex = 7
-        Me.FilterComboBoxLabel.Text = "Filter Combo Box"
-        '
         'FilterComboBox
         '
         Me.FilterComboBox.FormattingEnabled = True
@@ -175,28 +213,6 @@ Partial Class StansGroceryForm
         Me.FilterComboBox.Name = "FilterComboBox"
         Me.FilterComboBox.Size = New System.Drawing.Size(165, 28)
         Me.FilterComboBox.TabIndex = 6
-        '
-        'CategoryRadioButton
-        '
-        Me.CategoryRadioButton.AutoSize = True
-        Me.CategoryRadioButton.Location = New System.Drawing.Point(6, 59)
-        Me.CategoryRadioButton.Name = "CategoryRadioButton"
-        Me.CategoryRadioButton.Size = New System.Drawing.Size(147, 24)
-        Me.CategoryRadioButton.TabIndex = 5
-        Me.CategoryRadioButton.Text = "Filter By Category"
-        Me.CategoryRadioButton.UseVisualStyleBackColor = True
-        '
-        'AisleRadioButton
-        '
-        Me.AisleRadioButton.AutoSize = True
-        Me.AisleRadioButton.Checked = True
-        Me.AisleRadioButton.Location = New System.Drawing.Point(6, 29)
-        Me.AisleRadioButton.Name = "AisleRadioButton"
-        Me.AisleRadioButton.Size = New System.Drawing.Size(119, 24)
-        Me.AisleRadioButton.TabIndex = 4
-        Me.AisleRadioButton.TabStop = True
-        Me.AisleRadioButton.Text = "Filter By Aisle"
-        Me.AisleRadioButton.UseVisualStyleBackColor = True
         '
         'ContextMenuStrip1
         '
@@ -246,23 +262,16 @@ Partial Class StansGroceryForm
         '
         'DisplayTextBox
         '
+        Me.DisplayTextBox.Enabled = False
         Me.DisplayTextBox.Location = New System.Drawing.Point(12, 410)
         Me.DisplayTextBox.Name = "DisplayTextBox"
         Me.DisplayTextBox.Size = New System.Drawing.Size(684, 27)
         Me.DisplayTextBox.TabIndex = 6
+        Me.DisplayTextBox.TabStop = False
         '
         'OpenFileDialog
         '
         Me.OpenFileDialog.FileName = "OpenFileDialog"
-        '
-        'ExitButton
-        '
-        Me.ExitButton.Location = New System.Drawing.Point(735, 396)
-        Me.ExitButton.Name = "ExitButton"
-        Me.ExitButton.Size = New System.Drawing.Size(118, 55)
-        Me.ExitButton.TabIndex = 8
-        Me.ExitButton.Text = "Exit"
-        Me.ExitButton.UseVisualStyleBackColor = True
         '
         'StansGroceryForm
         '
