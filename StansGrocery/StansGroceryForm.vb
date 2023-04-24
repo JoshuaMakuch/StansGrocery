@@ -171,7 +171,7 @@ Public Class StansGroceryForm
         'matching said index (.selected text doesnt work, it acts like a que and pulls the old selected text rather than the newest one).
         If CStr(FilterComboBox.Items(FilterComboBox.SelectedIndex)) = "View All" Then 'If View all is selected, then refill the list box with the search array storage
             DisplayListBox.Items.AddRange(searchArrayStorage) 'Adds the entire array of search array storage
-            'This fills the filter combo box when view all is selected (this acts like a default setting and returns )
+            'This fills the filter combo box when view all is selected (this acts like a default setting)
             If AisleRadioButton.Checked Then
                 PartiallyFillComboBox(1) 'The reason one is used is due to the aisles data being in the "1" column of the food array
             Else
@@ -277,7 +277,13 @@ Public Class StansGroceryForm
             For n As Integer = 0 To rawDataArray.Length - 1 'For each item in the whole data set
                 'When the item is found in the food array and the fitler type isnt already in the filter combo box item list, then add the filter option to the combo box list
                 If food(n, 0) Is DisplayListBox.Items(i) And Not FilterComboBox.Items.Contains(food(n, aisleOrCategory)) Then
-                    FilterComboBox.Items.Add(food(n, aisleOrCategory))
+                    If aisleOrCategory = 1 And food(n, aisleOrCategory).Length < 2 And Not FilterComboBox.Items.Contains(" " & food(n, aisleOrCategory)) Then
+                        'The space is only added if the aisle filter is selected and the items doesn't exist in the filter combo box and it's length is < 1
+                        FilterComboBox.Items.Add(" " & food(n, aisleOrCategory))
+                    ElseIf Not FilterComboBox.Items.Contains(" " & food(n, aisleOrCategory)) Then
+                        'Else just add the normal items
+                        FilterComboBox.Items.Add(food(n, aisleOrCategory))
+                    End If
                 End If
             Next
         Next
